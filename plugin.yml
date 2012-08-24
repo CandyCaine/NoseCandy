@@ -1,0 +1,10 @@
+name: NoseCandy
+main: me.rich.nc.NoseCandyPlugin
+version: 0.3
+author: DirtyStarfish
+depends: [Spout]
+commands:
+  spawndrug:
+    description: Spawn drug
+    default: true
+    usage: /spawndrug
