@@ -11,6 +11,8 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class SpawnDrugExecutor implements CommandExecutor {
 
+	public static final String name = "spawndrug";
+	
 	private NoseCandyPlugin plugin;
 	
 	public SpawnDrugExecutor(NoseCandyPlugin plugin) {
