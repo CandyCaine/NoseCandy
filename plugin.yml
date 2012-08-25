@@ -3,8 +3,26 @@ main: me.rich.nc.NoseCandyPlugin
 version: 0.3
 author: DirtyStarfish
 depends: [Spout]
+permissions:
+  nosecandy.addiction.get.self:
+    description: Allows player to use /addiction
+    default: op
+  nosecandy.addiction.get.other:
+    description: Allows player to use /addiction [player]
+    default: op
+  nosecandy.addiction.set:
+    description: Allows player to use /addiction [set] [player] [drug] [amount]
+    default: op
 commands:
   spawndrug:
     description: Spawn drug
     default: true
     usage: /spawndrug
+  addiction:
+    description: View and edit addiction information
+    default: op
+    usage: /addiction | /addiction [player] | /addiction [set] [player] [drug] [amount]
+  nosecandy:
+    description: Help command
+    default: op
+    usage: /nosecandy
