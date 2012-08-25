@@ -20,10 +20,9 @@ public class Cocaine extends GenericCustomItem {
 	
 	@Override
 	public boolean onItemInteract(SpoutPlayer player, SpoutBlock block, BlockFace face) {
-		
 		EffectFactory.getInstance().applyCocaineEffect(player);
 		
-		SpoutItemStack stack = (SpoutItemStack) player.getItemInHand();
+		SpoutItemStack stack = new SpoutItemStack(player.getItemInHand());
 		if (stack.getAmount() == 1) {
 			player.setItemInHand(new ItemStack(0));
 		} else {
