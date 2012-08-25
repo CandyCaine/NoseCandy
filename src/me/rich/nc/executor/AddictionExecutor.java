@@ -16,6 +16,8 @@ public class AddictionExecutor implements CommandExecutor {
 
 	public static final String name = "addiction";
 
+	private final String COCAINE = "cocaine", HEROIN = "heroin", WEED = "weed";
+	
 	private NoseCandyPlugin plugin;
 
 	public AddictionExecutor(NoseCandyPlugin plugin) {
@@ -73,9 +75,79 @@ public class AddictionExecutor implements CommandExecutor {
 				if (args[0].equalsIgnoreCase("set")) {
 					if (player != null) {
 						if (player.hasPermission("nosecandy.addiction.set")) {
-							
+							if (Bukkit.getServer().getPlayer(args[1]) != null) {
+								if (args[2].equalsIgnoreCase(COCAINE)
+										|| args[2].equalsIgnoreCase(HEROIN)
+										|| args[2].equalsIgnoreCase(WEED)) {
+									
+									int addiction = 0;
+									try {
+										addiction = Integer.parseInt(args[3]);
+									} catch (NumberFormatException e) {
+										player.sendMessage("Incorrect Syntax, expected number. /addiction [set] [player] [cocaine|heroin|weed] [addiction]");
+										return true;
+									}
+									
+									if (args[2].equalsIgnoreCase(COCAINE)) {
+										this.setAddiction(player, Bukkit.getServer().getPlayer(args[1]), Column.COCAINE_ADDICTION, addiction);
+										return true;
+									} else if (args[2].equalsIgnoreCase(HEROIN)) {
+										this.setAddiction(player, Bukkit.getServer().getPlayer(args[1]), Column.HEROIN_ADDICTION, addiction);
+										return true;
+									} else if (args[2].equalsIgnoreCase(WEED)) {
+										this.setAddiction(player, Bukkit.getServer().getPlayer(args[1]), Column.WEED_ADDICTION, addiction);
+										return true;
+									}
+									
+								} else {
+									player.sendMessage("Incorrect Syntax, drug expected. /addiction [set] [player] [cocaine|heroin|weed] [addiction]");
+									return true;
+								}
+							} else {
+								player.sendMessage("Specified player is not online.");
+								return true;
+							}
+						} else {
+							player.sendMessage("You do not have permission to perform this command");
+							return true;
+						}
+					} else {
+						if (Bukkit.getServer().getPlayer(args[1]) != null) {
+							if (args[2].equalsIgnoreCase(COCAINE)
+									|| args[2].equalsIgnoreCase(HEROIN)
+									|| args[3].equalsIgnoreCase(WEED)) {
+								
+								int addiction = 0;
+								try {
+									addiction = Integer.parseInt(args[3]);
+								} catch (NumberFormatException e) {
+									sender.sendMessage("Incorrect Syntax, expected number. /addiction [set] [player] [cocaine|heroin|weed] [addiction]");
+									return true;
+								}
+								
+								if (args[2].equalsIgnoreCase(COCAINE)) {
+									this.setAddiction(sender, Bukkit.getServer().getPlayer(args[1]), Column.COCAINE_ADDICTION, addiction);
+									return true;
+								} else if (args[2].equalsIgnoreCase(HEROIN)) {
+									this.setAddiction(sender, Bukkit.getServer().getPlayer(args[1]), Column.HEROIN_ADDICTION, addiction);
+									return true;
+								} else if (args[2].equalsIgnoreCase(WEED)) {
+									this.setAddiction(sender, Bukkit.getServer().getPlayer(args[1]), Column.WEED_ADDICTION, addiction);
+									return true;
+								}
+								
+							} else {
+								sender.sendMessage("Incorrect Syntax, drug expected. /addiction [set] [player] [cocaine|heroin|weed] [addiction]");
+								return true;
+							}
+						} else {
+							sender.sendMessage("Specified player is not online.");
+							return true;
 						}
 					}
+				} else {
+					sender.sendMessage("Command unrecognised");
+					return true;
 				}
 			}
 		}
@@ -105,5 +177,6 @@ public class AddictionExecutor implements CommandExecutor {
 		String basequery = "UPDATE nosecandy SET %s=%s WHERE playername='%s';";
 		String query = String.format(basequery, column.getName(), addiction, player.getName());
 		this.plugin.getNCDatabase().getSQLite().query(query);
+		this.sendAddiction(sender, player);
 	}
 }
