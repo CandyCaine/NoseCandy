@@ -194,6 +194,12 @@ public class Database {
 			this.sqlite.query(query);
 	}
 
+	public void edit(String player, Column column, int amount) {
+		String query, basequery = "UPDATE nosecandy SET %s=%s WHERE playername='%s';";
+		query = String.format(basequery, column.getName(), amount, player);
+		this.sqlite.query(query);
+	}
+	
 	public SQLite getSQLite() {
 		return this.sqlite;
 	}
